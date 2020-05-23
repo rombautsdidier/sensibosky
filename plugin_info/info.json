@@ -1,0 +1,20 @@
+{
+	"id" : "sensibosky",
+	"name" : "Sensibo Sky",
+	"description" : "Plugin pour piloter le module Sensibo Sky",
+	"licence" : "AGPL",
+	"author" : "rombautsdidier",
+	"require" : "4.0",
+	"category" : "wellness",
+	"hasDependency" : false,
+	"hasOwnDeamon" : false,
+	"maxDependancyInstallTime" : 0,
+	"changelog" : "https://jeedom.github.io/plugin-sensibosky/#language#/changelog",
+	"documentation" : "https://jeedom.github.io/plugin-sensibosky/#language#/",
+	"link" : {
+		"forum":"",
+		"video" : ""
+	},
+	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
+}
