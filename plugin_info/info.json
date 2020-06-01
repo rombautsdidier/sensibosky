@@ -9,12 +9,12 @@
 	"hasDependency" : false,
 	"hasOwnDeamon" : true,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://jeedom.github.io/plugin-sensibosky/#language#/changelog",
-	"documentation" : "https://jeedom.github.io/plugin-sensibosky/#language#/",
+	"changelog" : "https://didier.rombauts.fr/sensibo-sky",
+	"documentation" : "https://didier.rombauts.fr/sensibo-sky",
 	"link" : {
 		"forum":"",
 		"video" : ""
 	},
-	"language" : ["fr_FR","en_US"],
+	"language" : ["fr_FR"],
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
 }
