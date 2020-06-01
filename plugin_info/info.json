@@ -7,7 +7,7 @@
 	"require" : "4.0",
 	"category" : "wellness",
 	"hasDependency" : false,
-	"hasOwnDeamon" : true,
+	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
 	"changelog" : "https://didier.rombauts.fr/sensibo-sky",
 	"documentation" : "https://didier.rombauts.fr/sensibo-sky",
