@@ -7,7 +7,7 @@
 	"require" : "4.0",
 	"category" : "wellness",
 	"hasDependency" : false,
-	"hasOwnDeamon" : false,
+	"hasOwnDeamon" : true,
 	"maxDependancyInstallTime" : 0,
 	"changelog" : "https://jeedom.github.io/plugin-sensibosky/#language#/changelog",
 	"documentation" : "https://jeedom.github.io/plugin-sensibosky/#language#/",
@@ -15,6 +15,6 @@
 		"forum":"",
 		"video" : ""
 	},
-	"language" : ["fr_FR","en_US","de_DE","sp_SP","ru_RU","id_ID","it_IT"],
+	"language" : ["fr_FR","en_US"],
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
 }

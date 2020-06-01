@@ -101,6 +101,10 @@ foreach (jeeObject::all() as $object) {
       <div class="col-sm-3">
         <span class="eqLogicAttr" data-l1key="configuration" data-l2key="location"/></span>
       </div>
+      <label class="col-sm-3 control-label">{{Unité de températures}}</label>
+      <div class="col-sm-3">
+        <span class="eqLogicAttr" data-l1key="configuration" data-l2key="tempUnit"/></span>
+      </div>
     </div>
 </fieldset>
 </form>
@@ -108,14 +112,21 @@ foreach (jeeObject::all() as $object) {
       <div role="tabpanel" class="tab-pane" id="commandtab">
 <br/><br/>
 <table id="table_cmd" class="table table-bordered table-condensed">
-    <thead>
-        <tr>
-            <th>{{Nom}}</th><th>{{Type}}</th><th>{{Action}}</th><th>{{Options}}</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+          <thead>
+            <tr>
+              <th style="width: 50px;"> ID</th>
+              <th style="width: 230px;">{{Nom}}</th>
+              <th style="width: 110px;">{{Sous-Type}}</th>
+              <th>{{Valeur}}</th>
+              <th>{{Paramètres}}</th>
+              <th style="width: 300px;">{{Options}}</th>
+              <th style="width: 150px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
 </div>
 </div>
 
