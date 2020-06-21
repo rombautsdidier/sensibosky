@@ -67,14 +67,16 @@ class sensibosky extends eqLogic {
       } else {
         // 
         // API URL
-        $uri = 'https://home.sensibo.com/api/v2/users/me/pods?device_id=' .$device_id. '&apiKey=' . $apikey;
+        $uri = 'https://home.sensibo.com/api/v2/pods/' .$device_id. '/acStates?apiKey=' . $apikey;
         log::add('sensibosky', 'debug', 'uri: '.$uri);
+        log::add('sensibosky', 'debug', 'cmd: '.$cmd);
         $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $cmd);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         curl_close($ch);
+        log::add('sensibosky', 'debug', 'result: '.$result);
         sensibosky::getAPIStatus();
       }
     }
@@ -378,7 +380,7 @@ class sensibosky extends eqLogic {
       $cmd->setValue($infoCmd ->getId());      
       $cmd->save();    
 
-      // Création des commandes action pour activer/eteindre le réversible
+     // Création des commandes action pour activer/eteindre le réversible
       $onActions=array('Allumer' => 'True','Eteindre' => 'False');
       foreach($onActions as $key => $value) {
         $cmd = $sensibosky->getCmd(null,'setOnTo'.$value);
@@ -387,8 +389,14 @@ class sensibosky extends eqLogic {
           $cmd->setLogicalId('setOnTo'.$value);
           $cmd->setIsVisible(1);
           $cmd->setName(__($key, __FILE__));
-
-          $cmd->setConfiguration('param','on='.strtolower($value));
+          switch ($value) {
+            case "True":
+              $cmd->setConfiguration('param','on=1');
+              break;
+            case "False":
+              $cmd->setConfiguration('param','on=0');
+              break;
+          }
           $cmds = $sensibosky->getCmd();
           $order = count($cmds);
           $cmd->setOrder($order);
@@ -396,7 +404,7 @@ class sensibosky extends eqLogic {
         $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->setEqLogic_id($sensibosky->getId());
-        $cmd->save();        
+        $cmd->save();               
       }
 
 
@@ -563,31 +571,49 @@ class sensiboskyCmd extends cmd {
               if (($the_cmd->getLogicalId()!='temperature') && ($the_cmd->getLogicalId()!='humidity') && ($the_cmd->getLogicalId()!='rssi') && ($the_cmd->getLogicalId()!='isAlive')) {
                 $acState[$the_cmd->getLogicalId()]=$the_cmd->execCmd();
               }
+
+              if ($the_cmd->getLogicalId()=='temperature') {
+              	$temp=$the_cmd->execCmd();
+              }
             }
 
             // Forcer à false la commande on si la commande off est exécutée, dans les autres cas, il faut toujours envoyer true pour on 
             if($this->getLogicalId()=='setOnToFalse') {
-              $acState['on']='false';
+              $acState['on']=(bool) 0;
             } else {
-              $acState['on']='true';
+              $acState['on']=(bool) 1;
             }
             
             // Récupérer la valeur du slider de la consigne
             if($this->getLogicalId()=='setTemperature') {
               if ($this->getSubType() == 'slider') {
-                $acState['targetTemperature'] = $_options['slider'];  
+                $acState['targetTemperature'] = (int) $_options['slider'];  
                 }            
             }
 
             // Puis, l'unité de température
             $acState['temperatureUnit']=$tempUnit;
 
-            // Enfin, écrasement de la valeur de la commande action
-            if ($request!="") {
+            // Enfin, écrasement de la valeur de la commande action si différent de on/off
+            if (($request!="") && ($this->getLogicalId()!='setOnToFalse') && ($this->getLogicalId()!='setOnToTrue')) { 
               $exec_cmd=explode('=',$request);
               $acState[$exec_cmd[0]]=$exec_cmd[1];
             }
 
+            if (($acState['mode']!="auto") && ($acState['mode']!="dry")) {
+            	// Si t° < à la consigne, forcer le mode à heat si pas auto
+            	if ($acState['targetTemperature'] < $temp) {
+            		log::add('sensibosky', 'debug', 'Attention, passage en mode cool car la consigne '.$acState['targetTemperature'].' est inférieure à '.$temp,true);
+            		$acState['mode']='cool';
+            	}
+            	// Si t° > à la consigne, forcer le mode à cool si pas auto
+            	if ($acState['targetTemperature'] > $temp) {
+            		log::add('sensibosky', 'debug', 'Attention, passage en mode heat car la consigne '.$acState['targetTemperature'].' est supérieure à '.$temp,true);
+            		$acState['mode']='heat';
+            	}
+            }
+
+            
             log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
             log::add('sensibosky', 'debug', 'Array to send for Pod '.$podid,true);
             log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
