@@ -9,8 +9,8 @@
 	"hasDependency" : false,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://didier.rombauts.fr/sensibo-sky",
-	"documentation" : "https://didier.rombauts.fr/sensibo-sky",
+	"changelog" : "https://rombautsdidier.github.io/sensibosky/fr_FR/changelog",
+	"documentation" : "https://rombautsdidier.github.io/sensibosky/fr_FR/",
 	"link" : {
 		"forum":"",
 		"video" : ""

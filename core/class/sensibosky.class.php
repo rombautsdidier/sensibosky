@@ -508,12 +508,7 @@ class sensibosky extends eqLogic {
         
     }
 
-    /*
-     * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
-      public function toHtml($_version = 'dashboard') {
 
-      }
-     */
 
     /*
      * Non obligatoire mais ca permet de déclencher une action après modification de variable de configuration
