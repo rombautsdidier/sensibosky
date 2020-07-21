@@ -109,11 +109,11 @@ class sensibosky extends eqLogic {
         log::add('sensibosky', 'debug', 'RSSI : ' . $value['measurements']['rssi'],true);
         log::add('sensibosky', 'debug', 'Room : ' . $value['location']['name'],true);
 
-        sensibosky::setPod($key+1,$value['id'],$value['connectionStatus']['isAlive'],$value['measurements']['rssi'],$value['measurements']['temperature'],$value['measurements']['humidity'],$value['location']['name'],$value['acState']['on'],$value['acState']['fanLevel'],$value['acState']['mode'],$value['acState']['swing'],$value['acState']['targetTemperature'],$value['acState']['temperatureUnit']);
+        sensibosky::setPod($key+1,$value['id'],$value['connectionStatus']['isAlive'],$value['measurements']['rssi'],$value['measurements']['temperature'],$value['measurements']['humidity'],$value['location']['name'],$value['acState']['on'],$value['acState']['fanLevel'],$value['acState']['mode'],$value['acState']['swing'],$value['acState']['targetTemperature'],$value['acState']['temperatureUnit'],$value['remoteCapabilities']['modes']);
       }
     }
 
-    public function setPod($id,$podid,$isAlive,$rssi,$temperature,$humidity,$location,$state,$fanLevel,$acMode,$acSwing,$targetTemp,$tempUnit) {
+    public function setPod($id,$podid,$isAlive,$rssi,$temperature,$humidity,$location,$state,$fanLevel,$acMode,$acSwing,$targetTemp,$tempUnit,$capabilities) {
       $sensibosky = self::byLogicalId('pod' . $id, 'sensibosky');
       if (!is_object($sensibosky)) {
         $sensibosky = new sensibosky();
@@ -121,10 +121,11 @@ class sensibosky extends eqLogic {
         $sensibosky->setLogicalId('pod' . $id);
         $sensibosky->setName(__('pod' . $id, __FILE__));
         $sensibosky->setIsEnable(true);
+        $sensibosky->setConfiguration('podid',$podid);
+        $sensibosky->setConfiguration('location',$location);
+        $sensibosky->setConfiguration('tempUnit',$tempUnit);
       }
-      $sensibosky->setConfiguration('podid',$podid);
-      $sensibosky->setConfiguration('location',$location);
-      $sensibosky->setConfiguration('tempUnit',$tempUnit);
+
       $sensibosky->save();
 
       //Commande refresh
@@ -133,7 +134,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('refresh');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Rafraichir', __FILE__));
+        $cmd->setName(__('Refresh', __FILE__));
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -149,7 +150,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('isAlive');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Connecté', __FILE__));
+        $cmd->setName(__('IsAlive', __FILE__));
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -167,7 +168,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('rssi');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('rssi', __FILE__));
+        $cmd->setName(__('RSSI', __FILE__));
         $cmd->setConfiguration('minValue','-100');
         $cmd->setConfiguration('maxValue','0');
         $cmd->setUnite('dBm');
@@ -190,7 +191,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('on');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Etat', __FILE__));
+        $cmd->setName(__('State', __FILE__));
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -211,7 +212,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('temperature');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Température', __FILE__));
+        $cmd->setName(__('Temperature', __FILE__));
 
         switch($tempUnit){
           case "C": $minTemp='16';  $maxTemp='30';  break;
@@ -248,7 +249,7 @@ class sensibosky extends eqLogic {
         $cmd->setTemplate('dashboard','core::tile');
         $cmd->setTemplate('mobile','core::tile');
         $cmd->setGeneric_type('HUMIDITY');
-        $cmd->setName(__('Humidité', __FILE__));
+        $cmd->setName(__('Humidity', __FILE__));
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -266,7 +267,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('fanLevel');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Puissance ventilateur', __FILE__));
+        $cmd->setName(__('Fan level', __FILE__));
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -302,7 +303,7 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('swing');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Rotation', __FILE__));
+        $cmd->setName(__('Swing', __FILE__));
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -314,14 +315,13 @@ class sensibosky extends eqLogic {
       $sensibosky->checkAndUpdateCmd('swing', $acSwing);
       $cmdId = $cmd->getId();
 
-      
       // Création de la commande pour donner l'info de la consigne
       $cmd = $sensibosky->getCmd(null,'targetTemperature');
       if (!is_object($cmd)) {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('targetTemperature');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Consigne Info', __FILE__));
+        $cmd->setName(__('targetTemperature', __FILE__));
 
         switch($tempUnit){
           case "C": $minTemp='16';  $maxTemp='30';  break;
@@ -351,12 +351,11 @@ class sensibosky extends eqLogic {
         $cmd = new sensiboskyCmd();
         $cmd->setLogicalId('setTemperature');
         $cmd->setIsVisible(1);
-        $cmd->setName(__('Définir Consigne', __FILE__));
+        $cmd->setName(__('setTemperature', __FILE__));
 
         switch($tempUnit){
           case "C": $minTemp='16';  $maxTemp='30';  break;
           case "F": $minTemp='61';  $maxTemp='86';  break;
-
         }
 
         $cmd->setConfiguration('minValue',$minTemp);
@@ -381,7 +380,7 @@ class sensibosky extends eqLogic {
       $cmd->save();    
 
      // Création des commandes action pour activer/eteindre le réversible
-      $onActions=array('Allumer' => 'True','Eteindre' => 'False');
+      $onActions=array('on' => 'True','off' => 'False');
       foreach($onActions as $key => $value) {
         $cmd = $sensibosky->getCmd(null,'setOnTo'.$value);
         if (!is_object($cmd)) {
@@ -407,18 +406,17 @@ class sensibosky extends eqLogic {
         $cmd->save();               
       }
 
-
-      // Création des commandes action pour régler la vitesse du ventilateur
-      $fanActions=array('silencieuse' => 'quiet','faible' => 'low','faible moyenne' => 'medium_low','moyenne' => 'medium','moyenne forte' => 'medium_high','forte' => 'high','très forte' => 'strong','automatique' => 'auto');
-      foreach($fanActions as $key => $value) {
-       $cmd = $sensibosky->getCmd(null,'setFanTo'.$value);
+      // Apprendre les capacités afin d'en déduire les propriétés 
+      foreach ($capabilities as $key1 => $value1) {
+        // Mode
+        $cmd = $sensibosky->getCmd(null,'setModeTo'.$key1);
         if (!is_object($cmd)) {
           $cmd = new sensiboskyCmd();
-          $cmd->setLogicalId('setFanTo'.$value);
+          $cmd->setLogicalId('setModeTo'.$key1);
           $cmd->setIsVisible(1);
-          $cmd->setName(__('Ventilation '.$key, __FILE__));
+          $cmd->setName(__('Mode '.$key1, __FILE__));
 
-          $cmd->setConfiguration('param','fanLevel='.strtolower($value));
+          $cmd->setConfiguration('param','mode='.$key1);
           $cmds = $sensibosky->getCmd();
           $order = count($cmds);
           $cmd->setOrder($order);
@@ -426,51 +424,41 @@ class sensibosky extends eqLogic {
         $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->setEqLogic_id($sensibosky->getId());
-        $cmd->save();        
+        $cmd->save();
+
+        $capabilities_string='';
+        // Rotation et puissance du ventilateur
+        foreach ($value1 as $key2 => $value2) {
+          if (($key2 == 'fanLevels') || ($key2 == 'swing')) {
+            $capabilities_string .= $key2.'=';
+            foreach ($value2 as $key3 => $value3) {
+              $cmd = $sensibosky->getCmd(null,'set'.$key2.$value3);
+              $capabilities_string .= $value3.',';
+              if (!is_object($cmd)) {
+                $cmd = new sensiboskyCmd();
+                $cmd->setLogicalId('set'.$key2.$value3);
+                $cmd->setIsVisible(1);
+                $cmd->setName(__($key2.' '.$value3, __FILE__));
+
+                $cmd->setConfiguration('param','fanLevel='.strtolower($value3));
+                $cmds = $sensibosky->getCmd();
+                $order = count($cmds);
+                $cmd->setOrder($order);
+              }
+              $cmd->setType('action');
+              $cmd->setSubType('other');
+              $cmd->setEqLogic_id($sensibosky->getId());
+              $cmd->save();   
+            }
+            // On retire la dernière virgule
+            $capabilities_string = substr($capabilities_string, 0, -1).'|';
+          }
+        } 
+
+        // On sauvegarde les capacités par mode afin de les réutiliser à l'exécution des commandes.
+        $sensibosky->setConfiguration('capabilities'.$key1,$capabilities_string);
+        $sensibosky->save();
       }
-
-      // Création des commandes action pour régler la rotation
-      $swingActions=array('fixe supérieur' => 'fixedTop','fixe milieu supérieur' => 'fixedMiddleTop','fixe milieu' => 'fixedMiddle','fixe milieu inférieur' => 'fixedMiddleBottom','fixe inférieur' => 'fixedBottom','stoppée' => 'stopped','automatique' => 'auto');
-      foreach($swingActions as $key => $value) {
-        $cmd = $sensibosky->getCmd(null,'setSwingTo'.$value);
-        if (!is_object($cmd)) {
-          $cmd = new sensiboskyCmd();
-          $cmd->setLogicalId('setSwingTo'.$value);
-          $cmd->setIsVisible(1);
-          $cmd->setName(__('Rotation '.$key, __FILE__));
-
-          $cmd->setConfiguration('param','swing='.$value);
-          $cmds = $sensibosky->getCmd();
-          $order = count($cmds);
-          $cmd->setOrder($order);
-        }
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEqLogic_id($sensibosky->getId());
-        $cmd->save();        
-      }
-
-      // Création des commandes action pour régler le mode
-      $modeActions=array('Chauffage' => 'heat','Automatique' => 'auto','Clim' => 'cool','Déshumidificateur' => 'dry');
-      foreach($modeActions as $key => $value) {
-        $cmd = $sensibosky->getCmd(null,'setModeTo'.$value);
-        if (!is_object($cmd)) {
-          $cmd = new sensiboskyCmd();
-          $cmd->setLogicalId('setModeTo'.$value);
-          $cmd->setIsVisible(1);
-          $cmd->setName(__('Mode '.$key, __FILE__));
-
-          $cmd->setConfiguration('param','mode='.$value);
-          $cmds = $sensibosky->getCmd();
-          $order = count($cmds);
-          $cmd->setOrder($order);
-        }
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEqLogic_id($sensibosky->getId());
-        $cmd->save();        
-      }
-
     }
 
     /*     * *********************Méthodes d'instance************************* */
@@ -595,7 +583,23 @@ class sensiboskyCmd extends cmd {
               $acState[$exec_cmd[0]]=$exec_cmd[1];
             }
 
-            if (($acState['mode']!="auto") && ($acState['mode']!="dry")) {
+            // Ici, vérification des information fanLevel et swing. Si vide, on prend la première valeur de la liste des capacités en fonction du mode
+            $capabilities=str_replace('fanLevels', 'fanLevel', $eqLogic->getConfiguration('capabilities' . $acState['mode']));
+            log::add('sensibosky', 'debug', ' Capacités du mode '.$acState['mode']. ': '.$capabilities,true);
+
+            $the_capabilities=explode('|', $capabilities);
+            foreach ($the_capabilities as $the_properties) {
+              $the_property=explode('=', $the_properties);
+              $the_property_name=$the_property[0];
+              $the_property_values=$the_property[1];
+              $the_property_by_default=explode(',', $the_property_values);
+
+              if ($acState[$the_property_name] =='') $acState[$the_property_name]=$the_property_by_default[0];
+            }
+
+
+            // Gestion du cool & heat entre consigne et température de la pièce
+            if (($acState['mode']!="auto") && ($acState['mode']!="dry") && ($acState['mode']!="fan")) {
             	// Si t° < à la consigne, forcer le mode à heat si pas auto
             	if ($acState['targetTemperature'] < $temp) {
             		log::add('sensibosky', 'debug', 'Attention, passage en mode cool car la consigne '.$acState['targetTemperature'].' est inférieure à '.$temp,true);

@@ -94,16 +94,44 @@ foreach (jeeObject::all() as $object) {
 		</div>
     <div class="form-group">
       <label class="col-sm-3 control-label">{{ID du pod}}</label>
-      <div class="col-sm-3">
+      <div class="col-sm-9">
         <span class="eqLogicAttr" data-l1key="configuration" data-l2key="podid"/></span>
       </div>
+    </div>
+    <div class="form-group">
       <label class="col-sm-3 control-label">{{Localisation}}</label>
-      <div class="col-sm-3">
+      <div class="col-sm-9">
         <span class="eqLogicAttr" data-l1key="configuration" data-l2key="location"/></span>
       </div>
+    </div>
+    <div class="form-group">
       <label class="col-sm-3 control-label">{{Unité de températures}}</label>
-      <div class="col-sm-3">
+      <div class="col-sm-9">
         <span class="eqLogicAttr" data-l1key="configuration" data-l2key="tempUnit"/></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">{{Capacités Cool}}</label>
+      <div class="col-sm-9">
+        <span class="eqLogicAttr" data-l1key="configuration" data-l2key="capabilitiescool"/></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">{{Capacités Dry}}</label>
+      <div class="col-sm-9">
+        <span class="eqLogicAttr" data-l1key="configuration" data-l2key="capabilitiesdry"/></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">{{Capacités Fan}}</label>
+      <div class="col-sm-9">
+        <span class="eqLogicAttr" data-l1key="configuration" data-l2key="capabilitiesfan"/></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">{{Capacités Heat}}</label>
+      <div class="col-sm-9">
+        <span class="eqLogicAttr" data-l1key="configuration" data-l2key="capabilitiesheat"/></span>
       </div>
     </div>
 </fieldset>
