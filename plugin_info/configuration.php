@@ -25,9 +25,9 @@ if (!isConnect()) {
 <form class="form-horizontal">
     <fieldset>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Sensibo API Key}}</label>
+            <label class="col-lg-4 control-label">{{Clé API de votre compte Sensibo}}</label>
             <div class="col-lg-2">
-                <input class="configKey form-control" data-l1key="sensibo-apikey" placeholder="Enter your API key" />
+                <input class="configKey form-control" data-l1key="sensibo-apikey" placeholder="{{Entrez votre clé API récupérée de votre compte Sensibo}}" />
             </div>
         </div>
   </fieldset>

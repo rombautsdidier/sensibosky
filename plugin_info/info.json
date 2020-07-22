@@ -15,6 +15,9 @@
 		"forum":"",
 		"video" : ""
 	},
-	"language" : ["fr_FR","en_US"],
+	"language" : [
+		"fr_FR",
+		"en_US"
+	],
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
 }

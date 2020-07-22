@@ -11,18 +11,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
    <div class="col-xs-12 eqLogicThumbnailDisplay">
   <legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
   <div class="eqLogicThumbnailContainer">
-      <div class="cursor eqLogicAction logoPrimary" data-action="add">
-        <i class="fas fa-plus-circle"></i>
-        <br>
-        <span>{{Ajouter}}</span>
-    </div>
       <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
       <i class="fas fa-wrench"></i>
     <br>
     <span>{{Configuration}}</span>
   </div>
   </div>
-  <legend><i class="fas fa-table"></i> {{Mes templates}}</legend>
+  <legend><i class="fas fa-table"></i> {{Mes Sensibo Sky}}</legend>
 	   <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
 <div class="eqLogicThumbnailContainer">
     <?php
@@ -55,7 +50,7 @@ foreach ($eqLogics as $eqLogic) {
     <form class="form-horizontal">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{Nom de l'équipement template}}</label>
+                <label class="col-sm-3 control-label">{{Nom de l'équipement}}</label>
                 <div class="col-sm-3">
                     <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                     <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement template}}"/>
@@ -132,6 +127,12 @@ foreach (jeeObject::all() as $object) {
       <label class="col-sm-3 control-label">{{Capacités Heat}}</label>
       <div class="col-sm-9">
         <span class="eqLogicAttr" data-l1key="configuration" data-l2key="capabilitiesheat"/></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">{{Capacités Auto}}</label>
+      <div class="col-sm-9">
+        <span class="eqLogicAttr" data-l1key="configuration" data-l2key="capabilitiesauto"/></span>
       </div>
     </div>
 </fieldset>

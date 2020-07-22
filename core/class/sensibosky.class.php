@@ -431,6 +431,7 @@ class sensibosky extends eqLogic {
         foreach ($value1 as $key2 => $value2) {
           if (($key2 == 'fanLevels') || ($key2 == 'swing')) {
             $capabilities_string .= $key2.'=';
+            $capabilities_string=str_replace('fanLevels', 'fanLevel', $capabilities_string);
             foreach ($value2 as $key3 => $value3) {
               $cmd = $sensibosky->getCmd(null,'set'.$key2.$value3);
               $capabilities_string .= $value3.',';
@@ -440,7 +441,7 @@ class sensibosky extends eqLogic {
                 $cmd->setIsVisible(1);
                 $cmd->setName(__($key2.' '.$value3, __FILE__));
 
-                $cmd->setConfiguration('param','fanLevel='.strtolower($value3));
+                $cmd->setConfiguration('param',$key2.'='.$value3);
                 $cmds = $sensibosky->getCmd();
                 $order = count($cmds);
                 $cmd->setOrder($order);
@@ -583,21 +584,6 @@ class sensiboskyCmd extends cmd {
               $acState[$exec_cmd[0]]=$exec_cmd[1];
             }
 
-            // Ici, vérification des information fanLevel et swing. Si vide, on prend la première valeur de la liste des capacités en fonction du mode
-            $capabilities=str_replace('fanLevels', 'fanLevel', $eqLogic->getConfiguration('capabilities' . $acState['mode']));
-            log::add('sensibosky', 'debug', ' Capacités du mode '.$acState['mode']. ': '.$capabilities,true);
-
-            $the_capabilities=explode('|', $capabilities);
-            foreach ($the_capabilities as $the_properties) {
-              $the_property=explode('=', $the_properties);
-              $the_property_name=$the_property[0];
-              $the_property_values=$the_property[1];
-              $the_property_by_default=explode(',', $the_property_values);
-
-              if ($acState[$the_property_name] =='') $acState[$the_property_name]=$the_property_by_default[0];
-            }
-
-
             // Gestion du cool & heat entre consigne et température de la pièce
             if (($acState['mode']!="auto") && ($acState['mode']!="dry") && ($acState['mode']!="fan")) {
             	// Si t° < à la consigne, forcer le mode à heat si pas auto
@@ -614,7 +600,29 @@ class sensiboskyCmd extends cmd {
 
             
             log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
-            log::add('sensibosky', 'debug', 'Array to send for Pod '.$podid,true);
+            log::add('sensibosky', 'debug', 'Array to send for Pod '.$podid.' before capabilities check',true);
+            log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
+            foreach ($acState as $key => $value) {
+              log::add('sensibosky', 'debug', $key.' : ' . $value,true);             
+            }
+
+            // Ici, vérification des information fanLevel et swing. Si vide, on prend la première valeur de la liste des capacités en fonction du mode
+            $capabilities=str_replace('fanLevels', 'fanLevel', $eqLogic->getConfiguration('capabilities' . $acState['mode']));
+            log::add('sensibosky', 'debug', ' Capacités du mode '.$acState['mode']. ': '.$capabilities,true);
+
+            $the_capabilities=explode('|', $capabilities);
+
+            foreach ($the_capabilities as $the_properties) {
+              $the_property=explode('=', $the_properties);
+              $the_property_name=$the_property[0];
+              $the_property_values=$the_property[1];
+              $the_property_by_default=explode(',', $the_property_values);
+
+              if ($acState[$the_property_name] =='') $acState[$the_property_name]=$the_property_by_default[0];
+            }
+
+            log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
+            log::add('sensibosky', 'debug', 'Array to send for Pod '.$podid.' after capabilities check',true);
             log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
             foreach ($acState as $key => $value) {
               log::add('sensibosky', 'debug', $key.' : ' . $value,true);             
