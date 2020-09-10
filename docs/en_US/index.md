@@ -21,6 +21,7 @@ After one minute, if the API key is well configured, the plugin will record all 
 
 The last action will be to attribute an object to each equipment and activate it.
 
+An option for forcing the mode is available in order to avoid asking the cool mode if the temperature to reach if below the current temperature. It is possible to define a delta (+/- 3°) in order to determine if another mode must be forcced when the command is executed.
 
 ## The Commands
 
@@ -49,3 +50,6 @@ All info's command are available and will give you:
 -   The current mode.
 
 
+## What's new for next version
+
+- Improve the dashboard design

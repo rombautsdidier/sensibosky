@@ -26,6 +26,7 @@
         "Visible": "Visible",
         "ID du pod": "Pod's identification",
         "Localisation": "Localisation",
+        "Forçage du mode": "Mode overwrite",
         "Unité de températures": "Temperatures unit",
         "Capacités Cool": "Cooling mode capabilities",
         "Capacités Heat": "Heating mode capabilities",

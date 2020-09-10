@@ -124,6 +124,7 @@ class sensibosky extends eqLogic {
         $sensibosky->setConfiguration('podid',$podid);
         $sensibosky->setConfiguration('location',$location);
         $sensibosky->setConfiguration('tempUnit',$tempUnit);
+        $sensibosky->setConfiguration('forceMode','none');
       }
 
       $sensibosky->save();
@@ -584,21 +585,24 @@ class sensiboskyCmd extends cmd {
               $acState[$exec_cmd[0]]=$exec_cmd[1];
             }
 
+            
             // Gestion du cool & heat entre consigne et température de la pièce
-            if (($acState['mode']!="auto") && ($acState['mode']!="dry") && ($acState['mode']!="fan")) {
-            	// Si t° < à la consigne, forcer le mode à heat si pas auto
-            	if ($acState['targetTemperature'] < $temp) {
-            		log::add('sensibosky', 'debug', 'Attention, passage en mode cool car la consigne '.$acState['targetTemperature'].' est inférieure à '.$temp,true);
-            		$acState['mode']='cool';
-            	}
-            	// Si t° > à la consigne, forcer le mode à cool si pas auto
-            	if ($acState['targetTemperature'] > $temp) {
-            		log::add('sensibosky', 'debug', 'Attention, passage en mode heat car la consigne '.$acState['targetTemperature'].' est supérieure à '.$temp,true);
-            		$acState['mode']='heat';
-            	}
+            if ($eqLogic->getConfiguration('forceMode')!='none') {
+              if (($acState['mode']!="auto") && ($acState['mode']!="dry") && ($acState['mode']!="fan")) {
+                // Si t° < à la consigne, forcer le mode à heat si pas auto
+                if ($acState['targetTemperature'] < $temp-$eqLogic->getConfiguration('forceMode')) {
+                  log::add('sensibosky', 'debug', 'Attention, passage en mode cool car la consigne '.$acState['targetTemperature'].' est inférieure à '.$temp,true);
+                  $acState['mode']='heat';
+                } 
+
+                // Si t° > à la consigne, forcer le mode à cool si pas auto
+                if ($acState['targetTemperature'] > $temp+$eqLogic->getConfiguration('forceMode')) {
+                  log::add('sensibosky', 'debug', 'Attention, passage en mode heat car la consigne '.$acState['targetTemperature'].' est supérieure à '.$temp,true);
+                  $acState['mode']='cool';
+                }
+              }
             }
 
-            
             log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);
             log::add('sensibosky', 'debug', 'Array to send for Pod '.$podid.' before capabilities check',true);
             log::add('sensibosky', 'debug', '-------------------------------------------------------------------',true);

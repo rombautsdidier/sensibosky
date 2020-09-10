@@ -88,6 +88,17 @@ foreach (jeeObject::all() as $object) {
 			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
 		</div>
     <div class="form-group">
+        <label class="col-sm-3 control-label">{{Forçage du mode}}</label>
+        <div class="col-sm-3">
+            <select class="form-control eqLogicAttr configuration" data-l1key="configuration" data-l2key="forceMode">
+                <option value="none">{{Aucun}}</option>
+                <option value="1">{{1 degré}}</option>
+                <option value="2">{{2 degrés}}</option>
+                <option value="3">{{3 degrés}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
       <label class="col-sm-3 control-label">{{ID du pod}}</label>
       <div class="col-sm-9">
         <span class="eqLogicAttr" data-l1key="configuration" data-l2key="podid"/></span>

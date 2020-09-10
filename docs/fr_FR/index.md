@@ -21,6 +21,8 @@ Dans la minute qui suit, si la clé API est bien renseignée, le plugin va rapat
 
 Il vous suffira enfin d'attribuer un objet à chaque équipement correspondant à un module et l'activer.
 
+Une option pour le forçage du mode est disponible afin d'éviter de demander un mode climatisation si la température à atteindre est inférieure à la température ambiante. Il sera possible de définir un delta de +/- 3° afin de déterminer au moment où la commande est exécutée s'il faut forcer dans un autre mode que celui choisi.
+
 
 ## Les Commandes
 
@@ -49,3 +51,6 @@ Toutes les commandes info sont accessibles et vous donneront:
 -   Le mode en cours.
 
 
+## Quoi de neuf pour la prochaine version?
+
+- Amélioration du design de la tuile 
