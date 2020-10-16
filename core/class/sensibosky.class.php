@@ -366,7 +366,6 @@ class sensibosky extends eqLogic {
         $cmd->setGeneric_type('THERMOSTAT_SET_SETPOINT');
         $cmd->setTemplate('dashboard','core::button');
         $cmd->setTemplate('mobile','core::button');
-
         $cmds = $sensibosky->getCmd();
         $order = count($cmds);
         $cmd->setOrder($order);
@@ -374,6 +373,11 @@ class sensibosky extends eqLogic {
       $cmd->setType('action');
       $cmd->setSubType('slider');
       $cmd->setEqLogic_id($sensibosky->getId());
+
+      // Ajouter le paramètre step pour faire des pas de 1°
+      $arr = $cmd->getDisplay('parameters');
+      $arr['step'] = 1;
+      $cmd->setDisplay('parameters', $arr);
 
       // Liaison de la commande info à la commande action
       $infoCmd = $sensibosky->getCmd(null, 'targetTemperature');
