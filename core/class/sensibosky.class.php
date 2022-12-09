@@ -105,15 +105,17 @@ class sensibosky extends eqLogic {
         log::add('sensibosky', 'debug', 'swing : ' . $value['acState']['swing'],true);
         log::add('sensibosky', 'debug', 'MeasuredTemp : ' . $value['measurements']['temperature'],true);
         log::add('sensibosky', 'debug', 'MeasuredHumid : ' . $value['measurements']['humidity'],true);
+        log::add('sensibosky', 'debug', 'MeasuredCO2 : ' . $value['measurements']['co2'],true);
+        log::add('sensibosky', 'debug', 'MeasuredTVOC : ' . $value['measurements']['tvoc'],true);
         log::add('sensibosky', 'debug', 'MeasuredTime : ' . $value['measurements']['time']['time'],true);
         log::add('sensibosky', 'debug', 'RSSI : ' . $value['measurements']['rssi'],true);
         log::add('sensibosky', 'debug', 'Room : ' . $value['location']['name'],true);
 
-        sensibosky::setPod($key+1,$value['id'],$value['connectionStatus']['isAlive'],$value['measurements']['rssi'],$value['measurements']['temperature'],$value['measurements']['humidity'],$value['location']['name'],$value['acState']['on'],$value['acState']['fanLevel'],$value['acState']['mode'],$value['acState']['swing'],$value['acState']['targetTemperature'],$value['acState']['temperatureUnit'],$value['remoteCapabilities']['modes']);
+        sensibosky::setPod($key+1,$value['id'],$value['connectionStatus']['isAlive'],$value['measurements']['rssi'],$value['measurements']['temperature'],$value['measurements']['humidity'],$value['location']['name'],$value['acState']['on'],$value['acState']['fanLevel'],$value['acState']['mode'],$value['acState']['swing'],$value['acState']['targetTemperature'],$value['acState']['temperatureUnit'],$value['remoteCapabilities']['modes'],$value['measurements']['co2'],$value['measurements']['tvoc']);
       }
     }
 
-    public function setPod($id,$podid,$isAlive,$rssi,$temperature,$humidity,$location,$state,$fanLevel,$acMode,$acSwing,$targetTemp,$tempUnit,$capabilities) {
+    public function setPod($id,$podid,$isAlive,$rssi,$temperature,$humidity,$location,$state,$fanLevel,$acMode,$acSwing,$targetTemp,$tempUnit,$capabilities,$co2,$tvoc) {
       $sensibosky = self::byLogicalId('pod' . $id, 'sensibosky');
       if (!is_object($sensibosky)) {
         $sensibosky = new sensibosky();
@@ -261,6 +263,50 @@ class sensibosky extends eqLogic {
       $cmd->save();
       $sensibosky->checkAndUpdateCmd('humidity', $humidity);
       $cmdId = $cmd->getId();
+      
+      // Création de la commande co2
+      $cmd = $sensibosky->getCmd(null,'co2');
+      if (!is_object($cmd)) {
+        $cmd = new sensiboskyCmd();
+        $cmd->setLogicalId('co2');
+        $cmd->setIsVisible(1);
+        $cmd->setUnite('ppm');
+        $cmd->setTemplate('dashboard','core::tile');
+        $cmd->setTemplate('mobile','core::tile');
+        $cmd->setGeneric_type('CO2');
+        $cmd->setName(__('co2', __FILE__));
+        $cmds = $sensibosky->getCmd();
+        $order = count($cmds);
+        $cmd->setOrder($order);
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setEqLogic_id($sensibosky->getId());
+      $cmd->save();
+      $sensibosky->checkAndUpdateCmd('co2', $co2);
+      $cmdId = $cmd->getId();
+
+       // Création de la commande tvoc
+      $cmd = $sensibosky->getCmd(null,'tvoc');
+      if (!is_object($cmd)) {
+        $cmd = new sensiboskyCmd();
+        $cmd->setLogicalId('tvoc');
+        $cmd->setIsVisible(1);
+        $cmd->setUnite('ppb');
+        $cmd->setTemplate('dashboard','core::tile');
+        $cmd->setTemplate('mobile','core::tile');
+        $cmd->setGeneric_type('TVOC');
+        $cmd->setName(__('tvoc', __FILE__));
+        $cmds = $sensibosky->getCmd();
+        $order = count($cmds);
+        $cmd->setOrder($order);
+      }
+      $cmd->setType('info');
+      $cmd->setSubType('numeric');
+      $cmd->setEqLogic_id($sensibosky->getId());
+      $cmd->save();
+      $sensibosky->checkAndUpdateCmd('tvoc', $tvoc);
+      $cmdId = $cmd->getId();     
 
       // Création de la commande fanLevel
       $cmd = $sensibosky->getCmd(null,'fanLevel');
@@ -643,5 +689,3 @@ class sensiboskyCmd extends cmd {
     }
     /*     * **********************Getteur Setteur*************************** */
 }
-
-
