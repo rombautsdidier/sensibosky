@@ -2,6 +2,12 @@
 
 > Pour rappel s’il n’y a pas d’information sur la mise à jour, c’est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 17/12/2022
+
+Ajout des commandes pour récupérer des informations du Sensibo Air
+Modification de la présentation de la liste des commandes depuis la 4.2
+
+
 ## 16/10/2020
 
 Correction d'une erreur dans une fonction qui force un mode si la température à atteindre et le mode choisi ne correspond pas à la température ambiante. Par exemple, si la température est à 21° et que la consigne est 24° et que le mode cool est choisi, le plugin forcera en heat. 

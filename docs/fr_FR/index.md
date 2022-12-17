@@ -5,7 +5,7 @@ lang: fr_FR
 
 # Plugin Sensibo Sky
 
-Ce plugin permet de piloter le module Sensibo Sky afin de contrôler vos réversibles.
+Ce plugin permet de piloter le module Sensibo Sky / Air afin de contrôler vos réversibles.
 
 ## Configuration du plugin Sensibo Sky
 
@@ -41,6 +41,10 @@ Toutes les commandes info sont accessibles et vous donneront:
 -   La température de la pièce
 
 -   L'humidité de la pièce
+
+-   Le taux de CO2
+
+-   Le taux de TVOC
 
 -   La consigne configurée en cours
 

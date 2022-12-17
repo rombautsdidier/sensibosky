@@ -2,6 +2,12 @@
 
 > Reminder: if there is not information about the update, it concerns then only an update from the documentation, traslation or text modifications.
 
+## 17/12/2022
+
+Add command from the Sensibo Air
+Modify layout of the command's list changed since 4.2 version
+
+
 ## 16/10/2020
 
 Error correction in a function that force the mode if the target temperature and the chosen mode is not coherent. For example, if the temperature is 21°, the target temperature is 24° and the mode cool is chosen, the plugin will force heat mode. 

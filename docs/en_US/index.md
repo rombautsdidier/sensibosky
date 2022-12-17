@@ -5,7 +5,7 @@ lang: en_US
 
 # Plugin Sensibo Sky
 
-This plugin gives you the possibility to pilot the Sensibo Sky module in order to control your AC systems.
+This plugin gives you the possibility to pilot the Sensibo Sky/Air module in order to control your AC systems.
 
 ## Plugin Sensibo Sky configuration
 
@@ -39,7 +39,11 @@ All info's command are available and will give you:
 
 -   The room's temperature
 
--   The romm's humidity 
+-   The room's humidity 
+
+-   The room's CO2
+
+-   The room's TVOC
 
 -   The current target temperature
 

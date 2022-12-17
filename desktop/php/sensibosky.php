@@ -149,29 +149,26 @@ foreach (jeeObject::all() as $object) {
 </fieldset>
 </form>
 </div>
-      <div role="tabpanel" class="tab-pane" id="commandtab">
-<br/><br/>
-<table id="table_cmd" class="table table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th style="width: 50px;"> ID</th>
-              <th style="width: 230px;">{{Nom}}</th>
-              <th style="width: 110px;">{{Sous-Type}}</th>
-              <th>{{Valeur}}</th>
-              <th>{{Paramètres}}</th>
-              <th style="width: 300px;">{{Options}}</th>
-              <th style="width: 150px;"></th>
-            </tr>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
-</div>
-</div>
-
-</div>
-</div>
+<!-- Onglet des commandes de l'équipement -->
+<div role="tabpanel" class="tab-pane" id="commandtab">
+	<br><br>
+	<div class="table-responsive">
+		<table id="table_cmd" class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th class="hidden-xs" style="min-width:50px;width:70px;">ID</th>
+					<th style="min-width:200px;width:350px;">{{Nom}}</th>
+					 <th>{{Sous-Type}}</th>
+					<th>{{Options}}</th>
+					<th>{{Etat}}</th>
+					<th style="min-width:80px;width:200px;">{{Actions}}</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div><!-- /.tabpanel #commandtab-->
 
 <?php include_file('desktop', 'sensibosky', 'js', 'sensibosky');?>
 <?php include_file('core', 'plugin.template', 'js');?>
