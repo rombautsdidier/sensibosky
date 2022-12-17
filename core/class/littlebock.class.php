@@ -71,7 +71,7 @@ class littlebock extends eqLogic {
 
 
   public function getAPIStatus() {
-    $json_string = littlebock::callLittlebockAPI('beer_package_types');
+    $json_string = littlebock::callLittlebockAPI('recipes');
     if ($json_string == '') {
       log::add('littlebock', 'debug', 'Réponse vide');
       return;
@@ -96,9 +96,9 @@ class littlebock extends eqLogic {
         if ($item_id!="") { $item_id="/".$item_id; }
 	$uri = 'https://www.littlebock.fr/api/'.$cmd.$item_id;
 
-        log::add('littlebock', 'debug', 'Appel : ' . $uri);
+    log::add('littlebock', 'debug', 'Appel : ' . $uri);
   	
-        $ch = curl_init();
+    $ch = curl_init();
 	$header = array("X-AUTH-TOKEN: ".$apikey);
 	curl_setopt($ch, CURLOPT_URL,$uri);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
