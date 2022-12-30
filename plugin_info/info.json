@@ -1,36 +1,23 @@
 {
-	"id" : "littlebock",
-	"name" : "Littlebock",
-	"description" : {
-		"fr_FR": "Plugin permettant la communication avec l'API de Littlebock"
-	},
+	"id" : "sensibosky",
+	"name" : "Sensibo Sky",
+	"description" : "Plugin pour piloter le module Sensibo Sky",
 	"licence" : "AGPL",
-	"author" : "Didier Rombauts",
-	"require" : "4.2.0",
-	"category" : "organization",
+	"author" : "rombautsdidier",
+	"require" : "3.0",
+	"category" : "wellness",
 	"hasDependency" : false,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://rombautsdidier.github.io/littlebock/#language#/changelog",
-	"documentation" : "https://rombautsdidier.github.io/littlebock/#language#/",
-	"changelog_beta" : "https://rombautsdidier.github.io/littlebock/#language#/beta/changelog",
-	"documentation_beta" : "https://jrombautsdidier.github.io/littlebock/#language#/beta/",
+	"changelog" : "https://rombautsdidier.github.io/sensibosky/#language#/changelog",
+	"documentation" : "https://rombautsdidier.github.io/sensibosky/#language#/",
 	"link" : {
-		"forum":"Lien vers le forum",
-		"video" : "Lien vers une video"
+		"forum":"",
+		"video" : ""
 	},
-	"language": [
+	"language" : [
 		"fr_FR",
 		"en_US"
 	],
-	"compatibility": [
-		"miniplus",
-		"smart",
-		"rpi",
-		"docker",
-		"diy",
-		"mobile",
-		"v4",
-		"atlas"
-	]
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
 }

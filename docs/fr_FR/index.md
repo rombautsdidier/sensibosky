@@ -1,18 +1,60 @@
-# Plugin template
+---
+layout: default
+lang: fr_FR
+---
 
-Ce "template de plugin" sert de base à la réalisation de plugins pour **Jeedom**.
+# Plugin Sensibo Sky
 
-La documentation générale relative à la conception de plugin est consultable [ici](https://doc.jeedom.com/fr_FR/dev/).
+Ce plugin permet de piloter le module Sensibo Sky / Air afin de contrôler vos réversibles.
 
-Dans le détail :   
-* [Utilisation du template de plugin](https://doc.jeedom.com/fr_FR/dev/plugin_template) : Le template de plugin est une base de plugin pour Jeedom qui doit être adaptée avec l'id de votre plugin et à laquelle il suffit d'ajouter vos propres fonctions.
+## Configuration du plugin Sensibo Sky
 
-* [Fichier info.json](https://doc.jeedom.com/fr_FR/dev/structure_info_json) : Intégré depuis la version 3.0 de Jeedom, le fichier **info.json** est obligatoire pour le bon fonctionnement des plugins et leur bon déploiement sur le Market Jeedom.
 
-* [Icône du plugin](https://doc.jeedom.com/fr_FR/dev/Icone_de_plugin) : Afin de pouvoir être publié sur le Market Jeedom, tout plugin doit disposer d’une icône. Attention à ne pas utiliser le même code couleur que les icônes des plugins Jeedom officiels.
+Après l'installation du plugin, il vous suffit de l'activer.
 
-* [Widget du plugin](https://doc.jeedom.com/fr_FR/dev/widget_plugin) : Présentation des différentes manières d'inclure des widgets personnalisés au plugin.
 
-* [Documentation du plugin](https://doc.jeedom.com/fr_FR/dev/documentation_plugin) : Présentation de la mise en place d'une documentation car un bon plugin n'est rien sans documentation adéquate.
+## Configuration
 
-* [Publication du plugin](https://doc.jeedom.com/fr_FR/dev/publication_plugin) : Description des pré-requis indispensables à la publication du plugin.
+Après activation, il sera nécessaire d'aller récupérer votre API key sur l'espace cloud de Sensibo Sky, le renseigner et sauvegarder.
+
+Dans la minute qui suit, si la clé API est bien renseignée, le plugin va rapatrier tous les modules enregistrés dans votre espace Sensibo.
+
+Il vous suffira enfin d'attribuer un objet à chaque équipement correspondant à un module et l'activer.
+
+Une option pour le forçage du mode est disponible afin d'éviter de demander un mode climatisation si la température à atteindre est inférieure à la température ambiante. Il sera possible de définir un delta de +/- 3° afin de déterminer au moment où la commande est exécutée s'il faut forcer dans un autre mode que celui choisi.
+
+
+## Les Commandes
+
+Toutes les commandes actions sont accessibles et peuvent donc être exécutées afin de changer les différentes propriétés:
+
+-   La consigne de température à atteindre
+
+-   Le positionnement de la bouche d'aération.
+
+-   Le mode (chaud, froid, auto, déshumidificateur)
+
+-   La puissance du ventilateur
+
+Toutes les commandes info sont accessibles et vous donneront:
+
+-   La température de la pièce
+
+-   L'humidité de la pièce
+
+-   Le taux de CO2
+
+-   Le taux de TVOC
+
+-   La consigne configurée en cours
+
+-   La puissance du ventilateur en cours
+
+-   Le positionnement de la bouche d'aération en cours
+
+-   Le mode en cours.
+
+
+## Quoi de neuf pour la prochaine version?
+
+- Amélioration du design de la tuile 
