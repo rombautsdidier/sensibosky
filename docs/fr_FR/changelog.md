@@ -2,6 +2,11 @@
 
 > Pour rappel s’il n’y a pas d’information sur la mise à jour, c’est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 23/01/2023
+
+Correction d'un bug sur les commandes fanLevel.
+Il faudra supprimer les commandes commançant par fanLevels. De nouvelles commandes seront automatiquement ajoutées pour gérer correctement la force de ventilation. 
+
 ## 17/12/2022
 
 Ajout des commandes pour récupérer des informations du Sensibo Air

@@ -2,6 +2,11 @@
 
 > Reminder: if there is not information about the update, it concerns then only an update from the documentation, traslation or text modifications.
 
+## 23/01/2023
+
+Bug correction for commands fanLevels.
+The actual fanLevels command must be deleted and new commands will be added on the next cron execution.
+
 ## 17/12/2022
 
 Add command from the Sensibo Air

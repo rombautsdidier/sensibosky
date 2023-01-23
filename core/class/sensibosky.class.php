@@ -480,19 +480,21 @@ class sensibosky extends eqLogic {
         $capabilities_string='';
         // Rotation et puissance du ventilateur
         foreach ($value1 as $key2 => $value2) {
-          if (($key2 == 'fanLevels') || ($key2 == 'swing')) {
+          $sensiboCmd=$key2;
+          if (($sensiboCmd == 'fanLevels') || ($sensiboCmd == 'swing')) {
+            $sensiboCmd=str_replace('fanLevels', 'fanLevel', $sensiboCmd);
             $capabilities_string .= $key2.'=';
-            $capabilities_string=str_replace('fanLevels', 'fanLevel', $capabilities_string);
+            
             foreach ($value2 as $key3 => $value3) {
-              $cmd = $sensibosky->getCmd(null,'set'.$key2.$value3);
+              $cmd = $sensibosky->getCmd(null,'set'.$sensiboCmd.$value3);
               $capabilities_string .= $value3.',';
               if (!is_object($cmd)) {
                 $cmd = new sensiboskyCmd();
-                $cmd->setLogicalId('set'.$key2.$value3);
+                $cmd->setLogicalId('set'.$sensiboCmd.$value3);
                 $cmd->setIsVisible(1);
-                $cmd->setName(__($key2.' '.$value3, __FILE__));
+                $cmd->setName(__($sensiboCmd.' '.$value3, __FILE__));
 
-                $cmd->setConfiguration('param',$key2.'='.$value3);
+                $cmd->setConfiguration('param',$sensiboCmd.'='.$value3);
                 $cmds = $sensibosky->getCmd();
                 $order = count($cmds);
                 $cmd->setOrder($order);
@@ -661,7 +663,8 @@ class sensiboskyCmd extends cmd {
             }
 
             // Ici, vérification des information fanLevel et swing. Si vide, on prend la première valeur de la liste des capacités en fonction du mode
-            $capabilities=str_replace('fanLevels', 'fanLevel', $eqLogic->getConfiguration('capabilities' . $acState['mode']));
+            //$capabilities=str_replace('fanLevels', 'fanLevel', $eqLogic->getConfiguration('capabilities' . $acState['mode']));
+          $capabilities=$eqLogic->getConfiguration('capabilities' . $acState['mode']);
             log::add('sensibosky', 'debug', ' Capacités du mode '.$acState['mode']. ': '.$capabilities,true);
 
             $the_capabilities=explode('|', $capabilities);
@@ -669,6 +672,7 @@ class sensiboskyCmd extends cmd {
             foreach ($the_capabilities as $the_properties) {
               $the_property=explode('=', $the_properties);
               $the_property_name=$the_property[0];
+              $the_property_name=str_replace('fanLevels', 'fanLevel', $the_property_name);
               $the_property_values=$the_property[1];
               $the_property_by_default=explode(',', $the_property_values);
 
