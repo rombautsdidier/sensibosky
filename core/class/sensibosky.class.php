@@ -47,7 +47,7 @@ class sensibosky extends eqLogic {
       }
      */
 
-    public function callSensiboAPI($cmd="",$device_id="") {
+    public static function callSensiboAPI($cmd="",$device_id="") {
       $apikey = trim(config::byKey('sensibo-apikey', 'sensibosky'));
       if ($apikey == '') {
         log::add('sensibosky', 'error', 'Configuration à saisir');
@@ -81,7 +81,7 @@ class sensibosky extends eqLogic {
       }
     }
 
-    public function getAPIStatus() {
+    public static function getAPIStatus() {
       $json_string = sensibosky::callSensiboAPI();
       if ($json_string == '') {
         log::add('sensibosky', 'debug', 'Réponse vide');
@@ -115,7 +115,7 @@ class sensibosky extends eqLogic {
       }
     }
 
-    public function setPod($id,$podid,$isAlive,$rssi,$temperature,$humidity,$location,$state,$fanLevel,$acMode,$acSwing,$targetTemp,$tempUnit,$capabilities,$co2,$tvoc) {
+    public static function setPod($id,$podid,$isAlive,$rssi,$temperature,$humidity,$location,$state,$fanLevel,$acMode,$acSwing,$targetTemp,$tempUnit,$capabilities,$co2,$tvoc) {
       $sensibosky = self::byLogicalId('pod' . $id, 'sensibosky');
       if (!is_object($sensibosky)) {
         $sensibosky = new sensibosky();
@@ -421,9 +421,14 @@ class sensibosky extends eqLogic {
       $cmd->setEqLogic_id($sensibosky->getId());
 
       // Ajouter le paramètre step pour faire des pas de 1°
-      $arr = $cmd->getDisplay('parameters');
-      $arr['step'] = 1;
-      $cmd->setDisplay('parameters', $arr);
+      $parameters = $cmd->getDisplay('parameters');
+      if (is_string($parameters)) {
+          $parameters = json_decode($parameters, true) ?: array();
+      } elseif (!is_array($parameters)) {
+          $parameters = array();
+      }
+      $parameters['step'] = 1;
+      $cmd->setDisplay('parameters', $parameters);
 
       // Liaison de la commande info à la commande action
       $infoCmd = $sensibosky->getCmd(null, 'targetTemperature');

@@ -2,6 +2,10 @@
 
 > Reminder: if there is not information about the update, it concerns then only an update from the documentation, traslation or text modifications.
 
+## 26/05/2025
+
+PHP 8.0 compatibility
+
 ## 23/01/2023
 
 Bug correction for commands fanLevels.
