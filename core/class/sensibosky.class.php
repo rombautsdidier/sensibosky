@@ -73,6 +73,7 @@ class sensibosky extends eqLogic {
         $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $cmd);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_ENCODING, 'Accept-Encoding: gzip,deflate');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         curl_close($ch);

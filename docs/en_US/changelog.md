@@ -2,6 +2,10 @@
 
 > Reminder: if there is not information about the update, it concerns then only an update from the documentation, traslation or text modifications.
 
+## 08/12/2025
+
+Add of "Accept-Encoding: gzip" to increase the API calls limit. Thank to ObiWab!
+
 ## 26/05/2025
 
 PHP 8.0 compatibility

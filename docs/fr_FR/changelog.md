@@ -2,6 +2,9 @@
 
 > Pour rappel s’il n’y a pas d’information sur la mise à jour, c’est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+## 08/12/2025
+
+Ajout du "Accept-Encoding: gzip" pour augmenter la limite du nombre d'appels à l'API. Merci à ObiWab!
 
 ## 26/05/2025
 
